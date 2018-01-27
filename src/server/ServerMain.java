@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.Timer;
 import serverAPI.*;
-import utils.Blot;
-import utils.BodyList;
-import utils.Settings;
-import utils.Utils;
+import utils.*;
 
 public class ServerMain implements MessageReceiver, ActionListener{
 	public static void main(String[] args){ new ServerMain(); }
@@ -25,9 +22,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 		players = new HashMap<Integer, Player>();
 		bodyList = new BodyList();
 		serverHook = new ServerSide(this, settings);
-		settings.getString("player-shape");
-		
-		//TODO: read in body shape
+		playerShape = Utils.getPlayerShape(settings);
 		new Timer(1, this).start(); 
 	}
 

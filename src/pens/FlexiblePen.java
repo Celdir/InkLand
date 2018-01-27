@@ -1,8 +1,9 @@
-package utils;
+package pens;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import utils.PenType;
 
 public class FlexiblePen extends PenType {
 

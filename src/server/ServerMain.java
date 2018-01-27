@@ -2,6 +2,7 @@ package server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.Timer;
@@ -41,12 +42,14 @@ public class ServerMain implements MessageReceiver, ActionListener{
 	
 	@Override public void actionPerformed(ActionEvent e){
 		// Timer has been triggered! Send data to clients
-//		bodyList.clear();//TODO:
+		bodyList.clear();
 		for(Player player : players.values()) {
 			Blot shape = new Blot();
 			shape.fill = playerShape.fill;
-//			shape.bound = new Line();
-//			bodyList.blots.add(e)
+			shape.bound.points.clear();
+			for(Point2D.Double pt : playerShape.bound.points)
+				shape.bound.points.add(player.orientation.local2world(pt, true));
+			bodyList.blots.add(shape);
 		}
 		serverHook.println(Utils.toString(bodyList));
 	}

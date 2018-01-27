@@ -10,6 +10,11 @@ public class BodyList implements Transferable {
 	public final ArrayList<Blot> blots = new ArrayList<>();
 	public final ArrayList<Stroke> strokes = new ArrayList<>();
 	
+	public void clear() {
+		blots.clear();
+		strokes.clear();
+	}
+	
 	public void input(InputStream is) throws IOException {
 		int szB = Utils.read(is);
 		int szS = Utils.read(is);

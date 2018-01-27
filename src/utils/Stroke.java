@@ -12,10 +12,13 @@ public class Stroke implements Transferable {
 	
 	@Override public void input(InputStream is) throws IOException {
 		completed = (char)is.read() == 'C';
+		path.input(is);
+		pen.input(is);
 	}
 
 	@Override public void print(OutputStream os) throws IOException {
-		// TODO Auto-generated method stub
-		
+		os.write(completed ? 'C' : 'I');
+		path.print(os);
+		pen.print(os);
 	}
 }

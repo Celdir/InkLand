@@ -8,9 +8,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
+import utils.Settings;
 
 public class ServerSide extends Connection{
-	final int PORT = 44394, MAX_CLIENTS = 20;
+//	final int PORT = 44394;
+	final int MAX_CLIENTS;
 	ServerSocket socket;
 	ArrayList<Client> clients;
 	Thread connectionWaitThread, ioThread;
@@ -43,10 +45,11 @@ public class ServerSide extends Connection{
 		}
 	}
 
-	public ServerSide(MessageReceiver rec){
+	public ServerSide(MessageReceiver rec, Settings settings){
 		super(rec);
 		receiver = rec;
-		try{socket = new ServerSocket(PORT );}
+		MAX_CLIENTS = settings.getInt("max-players", 20);
+		try{socket = new ServerSocket(settings.getInt("port", 44394));}
 		catch(IOException e){e.printStackTrace();return;}
 
 		connectionWaitThread = new Thread(){

@@ -6,9 +6,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import serverAPI.*;
+import utils.Settings;
 
 public class ClientMain{
+	static Settings settings;
 	public static void main(String[] args){
+		settings = new Settings();
 //		Scanner scan = new Scanner(System.in);
 //		System.out.println("Enter a server address: ");
 //		String host = scan.nextLine();
@@ -19,7 +22,7 @@ public class ClientMain{
 			public void receiveMessage(String message){
 				System.out.println("Received: " + message);
 			}
-		}, "127.0.0.1");
+		}, settings);
 
 		final JFrame mainframe = new JFrame("Ink Game");
 		mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

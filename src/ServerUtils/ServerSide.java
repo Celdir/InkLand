@@ -45,8 +45,8 @@ public class ServerSide extends Connection{
 						synchronized(clientSocket){
 							while(in.ready()){
 								String line = in.readLine();
-								System.out.println("Received: "+line);
-								rec.receiveMessage(line);
+//								System.out.println("Received: "+line);
+								receiver.receiveMessage(line);
 							}
 						}
 					}
@@ -72,6 +72,6 @@ public class ServerSide extends Connection{
 		if(isClosed()) return;
 		out.println(message);
 		out.flush();
-		System.out.println("Sent: "+message);
+//		System.out.println("Sent: "+message);
 	}
 }

@@ -1,8 +1,8 @@
-package Client;
+package client;
 
 import java.util.Scanner;
-import ServerUtils.*;
-import ServerUtils.Connection.MessageReceiver;
+import serverAPI.*;
+import serverAPI.Connection.MessageReceiver;
 
 public class ClientMain{
 

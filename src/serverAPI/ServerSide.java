@@ -1,4 +1,4 @@
-package ServerUtils;
+package serverAPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,28 +8,34 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class ServerSide extends Connection{
 	final int PORT = 44394, MAX_CLIENTS = 20;
 	ServerSocket socket;
-	List<Client> clients;
+	ArrayList<Client> clients;
 	Thread connectionWaitThread, ioThread;
 	StringBuilder outgoing;
 	MessageReceiver receiver;
+	
+	public interface ServerMessageReceiver extends MessageReceiver{
+		void receiveMessage(Client client, String message);
+	}
 	
 	@Override
 	public boolean isClosed(){
 		return socket == null || socket.isClosed() || clients == null;
 	}
 
+	static int nextId = 0;
 	class Client{
+		final int id;
 		Socket socket;
 		PrintWriter out;
 		BufferedReader in;
 		Client(Socket connection){
+			id = ++nextId;
 			socket = connection;
-			try {
+			try{
 				out = new PrintWriter(connection.getOutputStream());
 				in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			}
@@ -92,7 +98,7 @@ public class ServerSide extends Connection{
 					}
 					else{
 						if(client.in.ready()){
-							receiver.receiveMessage(client.in.readLine());
+							receiver.receiveMessage(client.id+" "+client.in.readLine());
 						}
 						if(outgoing != null){
 							client.out.print(outgoing.toString());

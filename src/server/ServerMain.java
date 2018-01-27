@@ -1,15 +1,15 @@
-package Server;
+package server;
 
 import java.util.Scanner;
-import ServerUtils.*;
-import ServerUtils.Connection.MessageReceiver;
+import serverAPI.*;
+import serverAPI.Connection.MessageReceiver;
 
 public class ServerMain{
 	public static void main(String[] args){
 		Connection server = new ServerSide(new MessageReceiver(){
 			@Override
 			public void receiveMessage(String message) {
-				System.out.println("Received from client: "+message);
+				System.out.println("Received: "+message);
 			}
 		});
 

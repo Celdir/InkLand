@@ -1,4 +1,4 @@
-package ServerUtils;
+package serverAPI;
 
 //An abstract representation of a network connection (either a server or a client)
 public abstract class Connection {

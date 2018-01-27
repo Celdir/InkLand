@@ -14,7 +14,7 @@ public class Orientation implements Transferable {
 	private double rotRadians;
 	private transient double s, c;
 	
-	Point2D.Double local2world(Point2D.Double in, boolean useRot) {
+	public Point2D.Double local2world(Point2D.Double in, boolean useRot) {
 		double x, y;
 		if(useRot) {
 			x = in.x*c - in.y*s;
@@ -28,7 +28,7 @@ public class Orientation implements Transferable {
 		return new Point2D.Double(x, y);
 	}
 	
-	Point2D.Double world2local(Point2D.Double in, boolean useRot) {
+	public Point2D.Double world2local(Point2D.Double in, boolean useRot) {
 		Point2D.Double pt = new Point2D.Double(in.x, in.y);
 		pt.x -= position.x;
 		pt.y -= position.y;

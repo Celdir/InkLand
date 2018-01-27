@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 public class Line implements Transferable {
 	public final ArrayList<Point2D.Double> points = new ArrayList<>();
-
-	boolean completed;
 	
 	public void input(InputStream is) throws IOException {
 		points.clear();
@@ -25,6 +23,7 @@ public class Line implements Transferable {
 			double y = s.nextDouble();
 			points.add(new Point2D.Double(x, y));
 		}
+		s.close();
 	}
 
 	public void print(OutputStream os) throws IOException {
@@ -32,7 +31,7 @@ public class Line implements Transferable {
 		for (Point2D.Double p : points) {
 			out += p.x + " " + p.y + " ";
 		}
-		out += "| ";
+		out += "|";
 		os.write(out.getBytes());
 	}
 

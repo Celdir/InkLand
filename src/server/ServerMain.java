@@ -9,7 +9,6 @@ import javax.swing.Timer;
 import serverAPI.*;
 import utils.Blot;
 import utils.BodyList;
-import utils.Line;
 import utils.Settings;
 import utils.Utils;
 
@@ -27,6 +26,8 @@ public class ServerMain implements MessageReceiver, ActionListener{
 		players = new HashMap<Integer, Player>();
 		bodyList = new BodyList();
 		serverHook = new ServerSide(this, settings);
+		settings.getString("player-shape");
+		
 		//TODO: read in body shape
 		new Timer(1, this).start(); 
 	}

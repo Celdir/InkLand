@@ -49,8 +49,8 @@ public class ServerMain implements MessageReceiver, ActionListener{
 		for(Player player : players.values()) {
 			Blot shape = new Blot();
 			shape.fill = playerShape.fill;
-			shape.bound = new Line();
-			bodyList.blots.add(e)
+//			shape.bound = new Line();
+//			bodyList.blots.add(e)
 		}
 		serverHook.println(Utils.toString(bodyList));
 	}

@@ -1,7 +1,10 @@
 package client;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 import serverAPI.*;
 
 public class ClientMain{
@@ -18,12 +21,18 @@ public class ClientMain{
 			}
 		}, "127.0.0.1");
 
-		JFrame mainframe = new JFrame("Ink Game");
+		final JFrame mainframe = new JFrame("Ink Game");
 		mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		mainframe.setSize((int)(screenSize.getWidth()/1.5), (int)(screenSize.getHeight()/1.5));
 		mainframe.setLocationRelativeTo(null);
 		mainframe.add(new InkComponent());
 		mainframe.setVisible(true);
+		
+		new Timer(1, new ActionListener(){
+			@Override public void actionPerformed(ActionEvent e){
+				mainframe.repaint();
+			}
+		}).start(); 
 	}
 }

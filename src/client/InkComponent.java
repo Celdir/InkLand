@@ -1,8 +1,6 @@
 package client;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
-
 import javax.swing.JComponent;
 
 import utils.BodyList;
@@ -13,9 +11,6 @@ public class InkComponent extends JComponent {
 
 	BodyList list;
 	Orientation myPosition;
-	
-	
-	
 
 	@Override protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub

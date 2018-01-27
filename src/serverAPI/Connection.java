@@ -4,11 +4,6 @@ package serverAPI;
 public abstract class Connection {
 	MessageReceiver receiver;
 	
-	//A receiver to send incoming messages to
-	public interface MessageReceiver{
-		void receiveMessage(String message);
-	}
-	
 	public Connection(MessageReceiver rec){
 		receiver = rec;
 	}

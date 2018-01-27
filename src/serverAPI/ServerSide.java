@@ -97,7 +97,7 @@ public class ServerSide extends Connection{
 						System.out.println("A client left the server");
 					}
 					else{
-						if(client.in.ready()){
+						while(client.in.ready()){
 							receiver.receiveMessage(client.id+" "+client.in.readLine());
 						}
 						if(outgoing != null){

@@ -1,2 +1,2 @@
-# Ink
+# InkLand
 A game and stuff

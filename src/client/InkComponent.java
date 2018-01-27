@@ -9,7 +9,7 @@ import utils.Stroke;
 
 public class InkComponent extends JComponent {
 	private static final long serialVersionUID = -8844473018708075151L;
-	
+
 	ArrayList<Stroke> strokes;
 
 	@Override protected void paintComponent(Graphics g) {

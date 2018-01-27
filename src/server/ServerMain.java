@@ -2,7 +2,6 @@ package server;
 
 import java.util.Scanner;
 import serverAPI.*;
-import serverAPI.Connection.MessageReceiver;
 
 public class ServerMain{
 	public static void main(String[] args){

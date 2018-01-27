@@ -7,6 +7,13 @@ import java.util.HashSet;
 
 public class KeyboardState{
 	HashSet<Integer> pressed;
+
+	/**
+	 * Figure out if a key is currently being pressed (held down)
+	 *
+	 * @param  int  the ID of the key in question
+	 * @return      wether the key is pressed as a true/false
+	 */
 	public boolean isPressed(Integer k){
 		return pressed.contains(k);
 	}

@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class Stroke implements Transferable {
-	final Line path = new Line();
-	final PenType pen = new PenType();
+	public final Line path = new Line();
+	public final PenType pen = new PenType();
 	
 	boolean completed;
 	

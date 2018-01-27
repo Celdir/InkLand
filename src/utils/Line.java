@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class Line implements Transferable {
-	final ArrayList<Point2D.Double> points = new ArrayList<>();
+	public final ArrayList<Point2D.Double> points = new ArrayList<>();
 	
 	public void print(OutputStream os) throws IOException {
 		// TODO Auto-generated method stub

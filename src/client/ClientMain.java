@@ -5,7 +5,6 @@ import serverAPI.*;
 import serverAPI.Connection.MessageReceiver;
 
 public class ClientMain{
-
 	public static void main(String[] args){
 		// Connect to server
 		Connection connection = new ClientSide(new MessageReceiver(){

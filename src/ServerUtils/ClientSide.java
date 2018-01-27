@@ -9,6 +9,7 @@ import java.net.Socket;
 //Basic interface that connect to a server.
 //Uses port and address loaded from settings
 public class ClientSide extends Connection{
+	final int PORT = 44394;
 	Socket socket;
 	PrintWriter out;
 	BufferedReader in;
@@ -27,8 +28,8 @@ public class ClientSide extends Connection{
 	public ClientSide(MessageReceiver rec, String host){
 		super(rec);
 		try{
-			//Look for a server at host on port 44394
-			socket = new Socket(host, 44394);
+			//Look for a server at host:port
+			socket = new Socket(host, PORT);
 			out = new PrintWriter(socket.getOutputStream());
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			System.out.println("Connected to server");

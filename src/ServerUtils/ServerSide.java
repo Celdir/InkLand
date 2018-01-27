@@ -6,72 +6,118 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-//A basic server connection that joins to a client
 public class ServerSide extends Connection{
+	final int PORT = 44394, MAX_CLIENTS = 20;
 	ServerSocket socket;
-	Socket clientSocket;
-	PrintWriter out;
-	BufferedReader in;
-
+	List<Client> clients;
+	Thread connectionWaitThread, ioThread;
+	StringBuilder outgoing;
+	MessageReceiver receiver;
+	
 	@Override
 	public boolean isClosed(){
-		return socket == null || socket.isClosed() || clientSocket == null || clientSocket.isClosed();
+		return socket == null || socket.isClosed() || clients == null;
+	}
+
+	class Client{
+		Socket socket;
+		PrintWriter out;
+		BufferedReader in;
+		Client(Socket connection){
+			socket = connection;
+			try {
+				out = new PrintWriter(connection.getOutputStream());
+				in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			}
+			catch(IOException e){e.printStackTrace();}
+		}
 	}
 
 	public ServerSide(MessageReceiver rec){
 		super(rec);
-		//Open server on port 44394 & wait for a client to join
-		try{socket = new ServerSocket(44394);}
-		catch(IOException e){
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Server opened, waiting for client...");
+		receiver = rec;
+		try{socket = new ServerSocket(PORT );}
+		catch(IOException e){e.printStackTrace();return;}
 
-		try{
-			clientSocket = socket.accept();
-			out = new PrintWriter(clientSocket.getOutputStream());
-			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		}
-		catch(IOException e){e.printStackTrace();}
-		System.out.println("Client connected");
-
-		//Thread to read incoming data from client
-		new Thread(){
-			@Override public void run() {
-				while(!isClosed()){
-					try{
-						synchronized(clientSocket){
-							while(in.ready()){
-								String line = in.readLine();
-//								System.out.println("Received: "+line);
-								receiver.receiveMessage(line);
-							}
+		connectionWaitThread = new Thread(){
+			@Override public void run(){
+				try{
+					clients = new ArrayList<Client>();
+					
+					while(true){
+						Socket connection = socket.accept();
+						if(clients.size() == MAX_CLIENTS){
+							PrintWriter temp = new PrintWriter(connection.getOutputStream());
+							temp.println("Server is full!");
+							temp.flush();
+							connection.close();
+							continue;
 						}
+						synchronized(clients){
+							clients.add(new Client(connection));
+						}
+						System.out.println("Got a connection to a client");
 					}
-					catch(IOException e){e.printStackTrace();}
+				}
+				catch(IOException e){e.printStackTrace();}
+			}
+		};
+		connectionWaitThread.start();
+		
+		ioThread = new Thread(){
+			@Override public void run() {
+				while(!socket.isClosed()){
+					loop();
 				}
 			}
-		}.start();
+		};
+		ioThread.start();
+
+		System.out.println("Server opened");
 	}
 
-	@Override
-	public void close(){
-		try{
-			synchronized(clientSocket){
-				if(socket != null) socket.close();
-				if(clientSocket != null) clientSocket.close();
+	public void loop(){
+		synchronized(clients){
+			Iterator<Client> it = clients.iterator();
+			while(it.hasNext()){
+				Client client = it.next();
+				try{
+					if(client.socket.isClosed()){
+						it.remove();
+						System.out.println("A client left the server");
+					}
+					else{
+						if(client.in.ready()){
+							receiver.receiveMessage(client.in.readLine());
+						}
+						if(outgoing != null){
+							client.out.print(outgoing.toString());
+							client.out.flush();
+						}
+					}
+				}
+				catch(IOException e){e.printStackTrace();}
 			}
+			outgoing = null;
 		}
-		catch(IOException e){}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void close(){
+		connectionWaitThread.stop();
+		if(socket != null) try{socket.close();} catch(IOException e){}
 	}
 
-	@Override
+	public int numClients(){
+		return clients.size();
+	}
+
 	public void println(String message){
-		if(isClosed()) return;
-		out.println(message);
-		out.flush();
-//		System.out.println("Sent: "+message);
+		if(outgoing == null) outgoing = new StringBuilder(message).append('\n');
+		else outgoing.append(message).append('\n');
 	}
 }

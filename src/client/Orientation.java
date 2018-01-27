@@ -76,6 +76,8 @@ public class Orientation implements Transferable {
 		position.x = sc.nextDouble();
 		position.y = sc.nextDouble();
 		rotRadians = sc.nextDouble();
+		c = Math.cos(rotRadians);
+		s = Math.sin(rotRadians);
 		sc.close();
 	}
 

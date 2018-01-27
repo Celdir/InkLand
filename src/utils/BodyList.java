@@ -11,8 +11,8 @@ public class BodyList implements Transferable {
 	public final ArrayList<Stroke> strokes = new ArrayList<>();
 	
 	public void input(InputStream is) throws IOException {
-		int szB = read(is);
-		int szS = read(is);
+		int szB = Utils.read(is);
+		int szS = Utils.read(is);
 		blots.clear();
 		strokes.clear();
 		while(szB --> 0) {
@@ -31,12 +31,5 @@ public class BodyList implements Transferable {
 		out.printf("%d %d ", blots.size(), strokes.size());
 		for(Blot b : blots) b.print(os);
 		for(Stroke s : strokes) s.print(os);
-	}
-	
-	private static int read(InputStream is) throws IOException {
-		String s = "";
-		char c;
-		while((c = (char)is.read()) != ' ') s += c;
-		return Integer.parseInt(s);
 	}
 }

@@ -35,6 +35,10 @@ public class ServerMain implements MessageReceiver, ActionListener{
 			// Assume all messages from a client are just about orientation
 			Player player = players.get(id);
 			if(player == null) players.put(id, player = new Player());
+			if(message.equals("QUIT")){
+				players.remove(id);
+				return;
+			}
 			player.orientation.input(Utils.toInputStream(message));
 		}
 		catch(IOException e){

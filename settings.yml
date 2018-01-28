@@ -4,7 +4,7 @@
 
 port: 44394
 movement-speed: 0.1		#Units player can advance per tick
-rotate-speed: 0.005		#Radians player can rotate per tick
+rotate-speed: 0.01		#Radians player can rotate per tick
 
 ################################################
 #  Settings used by just the SERVER            #
@@ -25,3 +25,10 @@ client-timer-resolution: 50
 start-brush: default	#Which brush to start on
 screen-width: 75		#Screen % width on open
 screen-height: 75		#Screen % height on open
+
+key-up: W,UP
+key-down: S,DOWN
+key-left: A,LEFT
+key-right: D,DOWN
+key-rotate-clock: E
+key-rotate-counter: Q

@@ -23,7 +23,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	ClientMain() {
 		settings = new Settings();
 		serverHook = new ClientSide(this, settings);
-		keyboardHook = new KeyboardState();
+		keyboardHook = new KeyboardState(settings);
 		mainframe = new ClientFrame(settings);
 		mainframe.add(inkComp = new InkComponent());
 		mainframe.setVisible(true);
@@ -49,23 +49,21 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		serverHook.println(Utils.toString(inkComp.myPosition));
 
 		// Update player's position
-		if(keyboardHook.isPressed(KeyEvent.VK_W)){
-			inkComp.myPosition.translateBy(0, MOVEMENT_SPEED, inkComp.rotLocked);
+		if(keyboardHook.UP != keyboardHook.DOWN){
+			if(keyboardHook.UP)
+				inkComp.myPosition.translateBy(0, MOVEMENT_SPEED, inkComp.rotLocked);
+			else
+				inkComp.myPosition.translateBy(0, -MOVEMENT_SPEED, inkComp.rotLocked);
 		}
-		else if(keyboardHook.isPressed(KeyEvent.VK_S)){
-			inkComp.myPosition.translateBy(0, -MOVEMENT_SPEED, inkComp.rotLocked);
+		if(keyboardHook.LEFT != keyboardHook.RIGHT){
+			if(keyboardHook.LEFT)
+				inkComp.myPosition.translateBy(-MOVEMENT_SPEED, 0, inkComp.rotLocked);
+			else 
+				inkComp.myPosition.translateBy(MOVEMENT_SPEED, 0, inkComp.rotLocked);
 		}
-		if(keyboardHook.isPressed(KeyEvent.VK_A)){
-			inkComp.myPosition.translateBy(-MOVEMENT_SPEED, 0, inkComp.rotLocked);
-		}
-		else if(keyboardHook.isPressed(KeyEvent.VK_D)){
-			inkComp.myPosition.translateBy(MOVEMENT_SPEED, 0, inkComp.rotLocked);
-		}
-		if(keyboardHook.isPressed(KeyEvent.VK_Q)){
-			inkComp.myPosition.rotateBy(ROTATE_SPEED);
-		}
-		else if(keyboardHook.isPressed(KeyEvent.VK_E)){
-			inkComp.myPosition.rotateBy(-ROTATE_SPEED);
+		if(keyboardHook.CLOCK != keyboardHook.COUNTER){
+			if(keyboardHook.CLOCK) inkComp.myPosition.rotateBy(ROTATE_SPEED);
+			else inkComp.myPosition.rotateBy(-ROTATE_SPEED);
 		}
 	}
 }

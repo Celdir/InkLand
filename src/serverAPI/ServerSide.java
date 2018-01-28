@@ -22,7 +22,7 @@ public class ServerSide extends Connection{
 	public interface ServerMessageReceiver extends MessageReceiver{
 		void receiveMessage(Client client, String message);
 	}
-	
+
 	@Override
 	public boolean isClosed(){
 		return socket == null || socket.isClosed() || clients == null;
@@ -94,22 +94,27 @@ public class ServerSide extends Connection{
 			Iterator<Client> it = clients.iterator();
 			while(it.hasNext()){
 				Client client = it.next();
-				try{
-					if(client.socket.isClosed()){
-						it.remove();
-						System.out.println("A client left the server");
-					}
-					else{
+				if(client.socket == null || client.socket.isClosed()){
+					it.remove();
+					System.out.println("A client left the server");
+					receiver.receiveMessage(client.id+" QUIT");
+				}
+				else{
+					try{
 						while(client.in.ready()){
 							receiver.receiveMessage(client.id+" "+client.in.readLine());
 						}
 						if(outgoing != null){
 							client.out.print(outgoing.toString());
 							client.out.flush();
+							if(client.out.checkError()) throw new IOException();
 						}
 					}
+					catch(IOException e){
+						try{client.socket.close();} catch(IOException e1){}
+						client.socket = null;
+					}
 				}
-				catch(IOException e){e.printStackTrace();}
 			}
 			outgoing = null;
 		}
@@ -118,7 +123,10 @@ public class ServerSide extends Connection{
 	@SuppressWarnings("deprecation")
 	public void close(){
 		connectionWaitThread.stop();
-		if(socket != null) try{socket.close();} catch(IOException e){}
+		if(socket != null){
+			try{socket.close();} catch(IOException e){}
+			socket = null;
+		}
 	}
 
 	public int numClients(){

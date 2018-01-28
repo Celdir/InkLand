@@ -19,6 +19,7 @@ public class ClientSide extends Connection{
 	public void close(){
 		try{socket.close();}
 		catch(IOException e){e.printStackTrace();}
+		socket = null;
 	}
 
 	@Override

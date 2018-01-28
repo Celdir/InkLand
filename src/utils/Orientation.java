@@ -44,8 +44,8 @@ public class Orientation implements Transferable {
 
 	public void rotateBy(double rotRadians) {
 		this.rotRadians += rotRadians;
-		c = Math.cos(rotRadians);
-		s = Math.sin(rotRadians);
+		c = Math.cos(this.rotRadians);
+		s = Math.sin(this.rotRadians);
 	}
 	
 	public void translateBy(Point2D.Double displacement, boolean useRot) {

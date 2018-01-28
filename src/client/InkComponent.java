@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 
 import utils.Blot;
 import utils.BodyList;
+import utils.Orientation;
 
 public class InkComponent extends JComponent {
 	private static final long serialVersionUID = -8844473018708075151L;

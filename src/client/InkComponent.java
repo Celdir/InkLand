@@ -41,6 +41,6 @@ public class InkComponent extends JComponent {
 	}
 
 	private double getScale() {
-		return 1;
+		return 30;
 	}
 }

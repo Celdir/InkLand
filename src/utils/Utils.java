@@ -40,9 +40,9 @@ public class Utils{
 		for(HashMap<String, Object> inkData : inksData){
 			//{name: blue, starting: 100, capacity: 100, refill-rate: 2.0, color: 10 10 255 255}
 			Ink ink = new Ink();
-			ink.CAPACITY = (Double)inkData.get("capacity");
-			ink.REGEN_RATE = (Double)inkData.get("refill-rate");
-			ink.amount = (Double)inkData.get("starting");
+			ink.CAPACITY = Double.parseDouble(inkData.get("capacity").toString());
+			ink.REGEN_RATE = Double.parseDouble(inkData.get("refill-rate").toString());
+			ink.amount = Double.parseDouble(inkData.get("starting").toString());
 			ink.name = inkData.get("name").toString();
 			ink.color = Utils.colorFromString(inkData.get("color").toString());
 			inks.add(ink);

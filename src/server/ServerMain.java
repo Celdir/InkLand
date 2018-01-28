@@ -66,12 +66,14 @@ public class ServerMain implements MessageReceiver, ActionListener, ConnectionLi
 				shape.bound.points.add(player.orientation.local2world(pt, true));
 			bodyList.blots.add(shape);
 		}
+		//TODO: temporary Stroke to test display
 		Stroke s = new Stroke();
 		s.pen.color = Color.BLACK;
 		s.pen.thickness = 0.1;
 		s.path.points.add(new Point2D.Double(-4, 10));
 		s.path.points.add(new Point2D.Double(4, 10));
 		bodyList.strokes.add(s);
+
 		serverHook.println(PrintUtils.toString(bodyList));
 	}
 }

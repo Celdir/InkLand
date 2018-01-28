@@ -56,6 +56,7 @@ public class KeyboardState{
 						else if(down.contains(key.getKeyCode())) DOWN = true;
 						else if(left.contains(key.getKeyCode())) LEFT = true;
 						else if(right.contains(key.getKeyCode())) RIGHT = true;
+						else if(counter.contains(key.getKeyCode())) COUNTER = true;
 					}
 					else if(key.getID() == KeyEvent.KEY_RELEASED){
 						pressed.remove(key.getKeyCode());
@@ -63,6 +64,8 @@ public class KeyboardState{
 						else if(down.contains(key.getKeyCode())) DOWN = false;
 						else if(left.contains(key.getKeyCode())) LEFT = false;
 						else if(right.contains(key.getKeyCode())) RIGHT = false;
+						else if(clock.contains(key.getKeyCode())) CLOCK = false;
+						else if(counter.contains(key.getKeyCode())) COUNTER = false;
 					}
 					return false;
 				}

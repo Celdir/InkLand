@@ -76,7 +76,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 						(keyboardHook.RIGHT ? 1 : -1), 0, inkComp.rotLocked);
 			}
 			if(keyboardHook.CLOCK != keyboardHook.COUNTER){
-				inkComp.myPosition.rotateBy(ROTATE_SPEED * (keyboardHook.CLOCK ? 1 : -1));
+				inkComp.myPosition.rotateBy(ROTATE_SPEED * (keyboardHook.CLOCK ? -1 : 1));
 			}
 		}
 	}

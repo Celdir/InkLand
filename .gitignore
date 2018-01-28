@@ -1,4 +1,4 @@
 /bin/
 *.class
 *.un~
-settings.yml
+/settings.yml

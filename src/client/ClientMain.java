@@ -17,6 +17,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	Settings settings;
 	Connection serverHook;
 	KeyboardState keyboardHook;
+	Pen mouseHook;
 	JFrame mainframe;
 	InkComponent inkComp;
 	final double MOVEMENT_SPEED;
@@ -27,6 +28,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		inkComp = new InkComponent(settings);
 		serverHook = new ClientSide(this, settings);
 		keyboardHook = new KeyboardState(settings);
+		mouseHook = new Pen(settings);
 		mainframe = new ClientFrame(settings, inkComp);
 
 		MOVEMENT_SPEED = settings.getDouble("movement-speed", 1);
@@ -67,6 +69,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 
 		// Update player's position
 		if(mainframe.hasFocus()){
+			// Read keys
 			if(keyboardHook.UP != keyboardHook.DOWN){
 				inkComp.myPosition.translateBy(0, MOVEMENT_SPEED *
 						(keyboardHook.UP ? 1 : -1), inkComp.rotLocked);
@@ -78,6 +81,8 @@ public class ClientMain implements MessageReceiver, ActionListener {
 			if(keyboardHook.CLOCK != keyboardHook.COUNTER){
 				inkComp.myPosition.rotateBy(ROTATE_SPEED * (keyboardHook.CLOCK ? -1 : 1));
 			}
+
+			// Read mouse movement
 		}
 	}
 }

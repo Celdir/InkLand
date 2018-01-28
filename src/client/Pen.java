@@ -1,11 +1,18 @@
 package client;
 
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.event.MouseInputAdapter;
+import utils.Settings;
 
 public class Pen extends MouseInputAdapter {
-	public final ArrayList<Point> points = new ArrayList<>();
-	public final double SAMPLE_DIST = 5.0;
+	public final ArrayList<Point> points = new ArrayList<Point>();
+	final double SAMPLE_DIST;
+	
+	Pen(Settings settings){
+		SAMPLE_DIST = settings.getDouble("mouse-sampling-distance", 5.0);
+	}
 
 	public void mousePressed(MouseEvent e) {
 		points.clear();

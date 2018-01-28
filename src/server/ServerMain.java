@@ -39,7 +39,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 				players.remove(id);
 				return;
 			}
-			player.orientation.input(Utils.toInputStream(message));
+			player.orientation.input(PrintUtils.toInputStream(message));
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -57,6 +57,6 @@ public class ServerMain implements MessageReceiver, ActionListener{
 				shape.bound.points.add(player.orientation.local2world(pt, true));
 			bodyList.blots.add(shape);
 		}
-		serverHook.println(Utils.toString(bodyList));
+		serverHook.println(PrintUtils.toString(bodyList));
 	}
 }

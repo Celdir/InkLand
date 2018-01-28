@@ -3,9 +3,11 @@ package client;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import serverAPI.*;
+import utils.Ink;
 import utils.PrintUtils;
 import utils.Settings;
 
@@ -22,12 +24,10 @@ public class ClientMain implements MessageReceiver, ActionListener {
 
 	ClientMain() {
 		settings = new Settings();
+		inkComp = new InkComponent(settings);
 		serverHook = new ClientSide(this, settings);
 		keyboardHook = new KeyboardState(settings);
-		//TODO: Pause here to wait for special msgs from server?
-		mainframe = new ClientFrame(settings);
-		mainframe.add(inkComp = new InkComponent(settings));
-		mainframe.setVisible(true);
+		mainframe = new ClientFrame(settings, inkComp);
 
 		MOVEMENT_SPEED = settings.getDouble("movement-speed", 1);
 		ROTATE_SPEED = settings.getDouble("rotate-speed", 1);
@@ -36,12 +36,25 @@ public class ClientMain implements MessageReceiver, ActionListener {
 
 	@Override
 	public void receiveMessage(String message){
-		if(inkComp == null){
-			//read stuff 
+		InputStream is = PrintUtils.toInputStream(message);
+		if(inkComp.inks == null){
+			try{
+				// Read inks from server
+				int numInks = PrintUtils.readInt(is);
+				inkComp.inks = new Ink[numInks];
+				for(int i=0; i<numInks; ++i){
+					inkComp.inks[i] = new Ink();
+					inkComp.inks[i].input(is);
+				}
+			}
+			catch(IOException e){
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else try{
 			synchronized(inkComp.list){
-				inkComp.list.input(PrintUtils.toInputStream(message)); 
+				inkComp.list.input(is); 
 			}
 		}
 		catch(IOException e){e.printStackTrace();}

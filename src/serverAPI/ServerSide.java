@@ -18,9 +18,10 @@ public class ServerSide extends Connection{
 	Thread connectionWaitThread, ioThread;
 	StringBuilder outgoing;
 	MessageReceiver receiver;
+	ConnectionListener conListener;
 	
-	public interface ServerMessageReceiver extends MessageReceiver{
-		void receiveMessage(Client client, String message);
+	public interface ConnectionListener {
+		void connectionOpened(Client client);
 	}
 
 	@Override
@@ -29,10 +30,10 @@ public class ServerSide extends Connection{
 	}
 
 	static int nextId = 0;
-	class Client{
-		final int id;
+	public class Client{
+		public final int id;
 		Socket socket;
-		PrintWriter out;
+		public PrintWriter out;
 		BufferedReader in;
 		Client(Socket connection){
 			id = ++nextId;
@@ -43,11 +44,17 @@ public class ServerSide extends Connection{
 			}
 			catch(IOException e){e.printStackTrace();}
 		}
+		
 	}
 
 	public ServerSide(MessageReceiver rec, Settings settings){
+		this(rec, null, settings);
+	}
+
+	public ServerSide(MessageReceiver rec, ConnectionListener con, Settings settings){
 		super(rec);
 		receiver = rec;
+		conListener = con;
 		MAX_CLIENTS = settings.getInt("max-players", 20);
 		try{socket = new ServerSocket(settings.getInt("port", 44394));}
 		catch(IOException e){e.printStackTrace();return;}
@@ -66,10 +73,10 @@ public class ServerSide extends Connection{
 							connection.close();
 							continue;
 						}
-						synchronized(clients){
-							clients.add(new Client(connection));
-						}
 						System.out.println("Got a connection to a client");
+						Client client = new Client(connection);
+						synchronized(clients){ clients.add(client); }
+						if(conListener != null) conListener.connectionOpened(client);
 					}
 				}
 				catch(IOException e){e.printStackTrace();}

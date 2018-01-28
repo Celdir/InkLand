@@ -40,11 +40,11 @@ public class Utils{
 		for(HashMap<String, Object> inkData : inksData){
 			//{name: blue, starting: 100, capacity: 100, refill-rate: 2.0, color: 10 10 255 255}
 			Ink ink = new Ink();
-			ink.CAPACITY = Double.parseDouble(inkData.get("capacity").toString());
-			ink.REGEN_RATE = Double.parseDouble(inkData.get("refill-rate").toString());
-			ink.amount = Double.parseDouble(inkData.get("starting").toString());
 			ink.name = inkData.get("name").toString();
 			ink.color = Utils.colorFromString(inkData.get("color").toString());
+			ink.REGEN_RATE = Double.parseDouble(inkData.get("refill-rate").toString());
+			ink.CAPACITY = Double.parseDouble(inkData.get("capacity").toString());
+			ink.amount = Double.parseDouble(inkData.get("starting").toString());
 			inks.add(ink);
 		}
 		return inks.toArray(new Ink[inks.size()]);

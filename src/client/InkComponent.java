@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 import utils.Blot;
 import utils.BodyList;
+import utils.Ink;
 import utils.Orientation;
 import utils.Settings;
 import utils.Stroke;
@@ -16,6 +17,7 @@ public class InkComponent extends JComponent {
 
 	final BodyList list = new BodyList();
 	final Orientation myPosition = new Orientation();
+	Ink[] inks;
 	final int SCALE;
 	boolean rotLocked = true;
 

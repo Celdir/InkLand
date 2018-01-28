@@ -12,6 +12,8 @@ public class PrintUtils {
 		String s = "";
 		char c;
 		while((c = (char)is.read()) != ' ') s += c;
+//		while((c = (char)is.read()) == ' ');
+//		System.out.println("s="+s);
 		return s;
 	}
 

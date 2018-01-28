@@ -32,7 +32,20 @@ public class Settings {
 		String val = map.get(key.toLowerCase());
 		return val != null && val.matches("\\d+") ? Integer.parseInt(val) : def;
 	}
-	
+
+	public double getDouble(String key){
+		String val = map.get(key.toLowerCase());
+		if(val == null) return 0;
+		try{return Double.parseDouble(val);}
+		catch(NumberFormatException e){return 0;}
+	}
+	public double getDouble(String key, double def){
+		String val = map.get(key.toLowerCase());
+		if(val == null) return def;
+		try{return Double.parseDouble(val);}
+		catch(NumberFormatException e){return def;}
+	}
+
 	public String getString(String key){
 		return map.get(key.toLowerCase());
 	}

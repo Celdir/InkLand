@@ -30,7 +30,10 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		mainframe = new JFrame("Ink Game");
 		mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		mainframe.setSize((int)(screenSize.getWidth()/1.5), (int)(screenSize.getHeight()/1.5));
+		mainframe.setSize(
+				(int) (screenSize.getWidth() * (settings.getDouble("screen-width", 75)/100)),
+				(int) (screenSize.getHeight() * (settings.getDouble("screen-height", 75)/100))
+		);
 		mainframe.setLocationRelativeTo(null);
 		mainframe.add(inkComp);
 		mainframe.setVisible(true);

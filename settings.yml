@@ -1,18 +1,26 @@
-# Shape and color of the player object
-player-shape: 0 0 2 0 1 5
-player-color: 1 100 50 0
+################################################
+#  Settings used by BOTH server and client     #
+################################################
 
-# Address to connect to
-host: 127.0.0.1
-
-# Port to host/connect to
 port: 44394
+timer-resolution: 10	#Milliseconds per game tick
+movement-speed: 1		#Speed player can move per tick
 
-# Max clients per server
+
+################################################
+#  Settings used by just the SERVER            #
+################################################
+
+player-shape: 0 0 2 0 1 5
+player-color: 1 100 50 255
 max-players: 20
 
-# Milliseconds per game tick
-timer-resolution: 10
 
-# Speed player can move per game tick
-movement-speed: 1
+################################################
+#  Settings used by just the CLIENT            #
+################################################
+
+host:  127.0.0.1		#Address to connect to
+start-brush: default	#Which brush to start on
+screen-width: 75		#Screen % width on open
+screen-height: 75		#Screen % height on open

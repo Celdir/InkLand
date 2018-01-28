@@ -19,6 +19,7 @@ public class InkComponent extends JComponent {
 	@Override protected void paintComponent(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		//System.out.println(list.blots.size() + list.strokes.size());
 		for(Blot b : list.blots) {
 			g.setColor(b.fill);
 			int npts = b.bound.points.size();

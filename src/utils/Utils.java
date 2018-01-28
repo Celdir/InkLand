@@ -30,7 +30,7 @@ public class Utils{
 		Blot shape = new Blot();
 		shape.fill =  Color.BLACK;
 		try{
-			shape.bound.input(Utils.toInputStream(settings.getString("player-shape")));
+			shape.bound.input(Utils.toInputStream(settings.getString("player-shape") + " |"));
 			String[] rgb = settings.getString("player-color", "1 100 50 0").split(" ");
 			shape.fill = new Color(
 							Integer.parseInt(rgb[0]),//r

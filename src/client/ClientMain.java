@@ -3,10 +3,11 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.Timer;
-import com.sun.glass.events.KeyEvent;
+//import com.sun.glass.events.KeyEvent;
 import serverAPI.*;
 import utils.Settings;
 import utils.Utils;
@@ -39,6 +40,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 
 	@Override
 	public void receiveMessage(String message) {
+		if(inkComp == null) return;
 		try{ inkComp.list.input(Utils.toInputStream(message)); }
 		catch(IOException e) { e.printStackTrace(); }
 	}

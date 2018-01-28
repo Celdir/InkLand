@@ -10,21 +10,7 @@ public class Blot implements Transferable {
 	public Color fill = Color.BLACK;
 	
 	public void input(InputStream is) throws IOException {
-		String rgba = "";
-		char c;
-		for (int i = 0; i < 4; ++i) {
-			while ((c = (char) is.read()) != ' ') {
-				rgba += c;
-			}
-		}
-
-		String[] s = rgba.split(" ");
-		int r = Integer.parseInt(s[0]);
-		int g = Integer.parseInt(s[1]);
-		int b = Integer.parseInt(s[2]);
-		int a = Integer.parseInt(s[3]);
-
-		fill = new Color(r, g, b, a);
+		fill = new Color(Utils.read(is), Utils.read(is), Utils.read(is), Utils.read(is));
 		bound.input(is);
 	}
 

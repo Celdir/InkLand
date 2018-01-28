@@ -3,9 +3,7 @@ package client;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
-
 import javax.swing.JComponent;
-
 import utils.Blot;
 import utils.BodyList;
 import utils.Orientation;

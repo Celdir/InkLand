@@ -3,15 +3,15 @@
 ################################################
 
 port: 44394
-movement-speed: 0.1		#Speed player can move per tick
-rotate-speed: 0.005		#Speed player can move per tick
+movement-speed: 0.1		#Units player can advance per tick
+rotate-speed: 0.005		#Radians player can rotate per tick
 
 ################################################
 #  Settings used by just the SERVER            #
 ################################################
 
 player-shape: -1 -2 1 -2 0 3
-server-timer-resolution: 10	#Milliseconds per game tick
+server-timer-resolution: 20	#Milliseconds per game tick
 player-color: 1 100 50 255
 max-players: 20
 

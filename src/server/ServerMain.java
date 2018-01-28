@@ -31,7 +31,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 	public void receiveMessage(String message) {
 		int i = message.indexOf(' '), id = Integer.parseInt(message.substring(0, i));
 		message = message.substring(i+1);
-		try{
+		try{//Radians
 			// Assume all messages from a client are just about orientation
 			Player player = players.get(id);
 			if(player == null) players.put(id, player = new Player());

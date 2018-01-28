@@ -22,9 +22,13 @@ public class KeyboardState{
 		pressed = new HashSet<Integer>();
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(
 			new KeyEventDispatcher(){@Override public boolean dispatchKeyEvent(KeyEvent key){
-				if(key.getID() == KeyEvent.KEY_PRESSED) pressed.add(key.getKeyCode());
-				else if(key.getID() == KeyEvent.KEY_RELEASED) pressed.remove(key.getKeyCode());
-				return false;
+				synchronized(pressed){
+					if(key.getID() == KeyEvent.KEY_PRESSED)
+						pressed.add(key.getKeyCode());
+					else if(key.getID() == KeyEvent.KEY_RELEASED)
+						pressed.remove(key.getKeyCode());
+					return false;
+				}
 			}}
 		);
 	}

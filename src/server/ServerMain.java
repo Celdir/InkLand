@@ -17,7 +17,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 	HashMap<Integer, Player> players;
 	Connection serverHook;
 	Blot playerShape;
-	
+
 	ServerMain(){
 		settings = new Settings();
 		players = new HashMap<Integer, Player>();
@@ -41,7 +41,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override public void actionPerformed(ActionEvent e){
 		// Timer has been triggered! Send data to clients
 		bodyList.clear();

@@ -36,7 +36,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		mainframe.setVisible(true);
 
 		MOVEMENT_SPEED = settings.getInt("movement-speed", 1);
-		new Timer(settings.getInt("timer-resolution", 1), this).start();
+		new Timer(settings.getInt("timer-resolution", 10), this).start();
 	}
 
 	@Override

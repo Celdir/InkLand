@@ -24,7 +24,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 		bodyList = new BodyList();
 		serverHook = new ServerSide(this, settings);
 		playerShape = Utils.getPlayerShape(settings);
-		new Timer(1, this).start();
+		new Timer(settings.getInt("timer-resolution", 10), this).start();
 	}
 
 	@Override

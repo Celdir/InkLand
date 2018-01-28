@@ -20,7 +20,7 @@ max-players: 20
 #  Settings used by just the CLIENT            #
 ################################################
 
-host:  127.0.0.1		#Address to connect to
+host:  10.231.169.127		#Address to connect to
 start-brush: default	#Which brush to start on
 screen-width: 75		#Screen % width on open
 screen-height: 75		#Screen % height on open

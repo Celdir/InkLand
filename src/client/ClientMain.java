@@ -18,6 +18,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	JFrame mainframe;
 	InkComponent inkComp;
 	final int MOVEMENT_SPEED;
+	final int ROTATE_SPEED;
 
 	ClientMain() {
 		settings = new Settings();
@@ -28,6 +29,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		mainframe.setVisible(true);
 
 		MOVEMENT_SPEED = settings.getInt("movement-speed", 1);
+		ROTATE_SPEED = settings.getInt("rotate-speed", 1);
 		new Timer(settings.getInt("timer-resolution", 10), this).start();
 	}
 
@@ -60,10 +62,10 @@ public class ClientMain implements MessageReceiver, ActionListener {
 			inkComp.myPosition.translateBy(MOVEMENT_SPEED, 0, inkComp.rotLocked);
 		}
 		if(keyboardHook.isPressed(KeyEvent.VK_Q)){
-			//rotate cntrclock
+			inkComp.myPosition.rotateBy(ROTATE_SPEED);
 		}
 		else if(keyboardHook.isPressed(KeyEvent.VK_E)){
-			//rotate clockwise
+			inkComp.myPosition.rotateBy(ROTATE_SPEED);
 		}
 	}
 }

@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import javax.swing.Timer;
 import serverAPI.*;
@@ -16,16 +18,17 @@ public class ServerMain implements MessageReceiver, ActionListener, ConnectionLi
 
 	BodyList bodyList;
 	Settings settings;
-	HashMap<Integer, Player> players;
+	HashMap<Integer, Player> players = new HashMap<Integer, Player>();
 	Connection serverHook;
 	Blot playerShape;
 	Ink[] inks;
+	HashMap<String, Pen> pens;
 
 	ServerMain(){
 		settings = new Settings();
-		players = new HashMap<Integer, Player>();
 		bodyList = new BodyList();
 		inks = Utils.loadInks(settings.getObject("ink-types"));
+		pens = Utils.loadPens(settings.getObject("pen-types"));
 		serverHook = new ServerSide(this, this, settings);
 		playerShape = Utils.getPlayerShape(settings);
 		new Timer(settings.getInt("server-timer-resolution", 10), this).start();
@@ -33,22 +36,36 @@ public class ServerMain implements MessageReceiver, ActionListener, ConnectionLi
 
 	@Override public void connectionOpened(Client client){
 		players.put(client.id, new Player(inks.clone()));
-		// Send inks to the client
-		StringBuilder builder = new StringBuilder("").append(inks.length).append(' ');
-		for(Ink ink : inks) builder.append(PrintUtils.toString(ink));
-		client.out.print(builder.toString());
-		client.out.flush();
+
+		// Send inks & pens to the client
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		try{
+			PrintUtils.writeInt(os, inks.length);
+			for(Ink ink : inks) ink.print(os);
+			PrintUtils.writeInt(os, pens.size());
+			for(Pen pen : pens.values()) pen.print(os);
+			client.out.println(os.toString());
+			client.out.flush();
+		}
+		catch(IOException e){e.printStackTrace();}
 	}
 
 	@Override
 	public void receiveMessage(String message) {
-		int i = message.indexOf(' '), id = Integer.parseInt(message.substring(0, i));
-		message = message.substring(i+1);
-		try{//Radians
-			// Assume all messages from a client are just about orientation
-			Player player = players.get(id);
-			player.orientation.input(PrintUtils.toInputStream(message));
-			// TODO: send paint strokes (ink usage)
+		try{
+			InputStream is = PrintUtils.toInputStream(message);
+			int playerId = PrintUtils.readInt(is);
+
+			Player player = players.get(playerId);
+			player.orientation.input(is);
+
+			int newStrokes = PrintUtils.readInt(is);
+			for(int i=0; i<newStrokes; ++i){
+				Stroke stroke = new Stroke();
+				stroke.input(is);
+				bodyList.strokes.add(stroke);
+				//TODO: Validate stroke!
+			}
 		}
 		catch(IOException e){
 			e.printStackTrace();

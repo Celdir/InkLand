@@ -3,13 +3,13 @@ package utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import utils.Pen;
 
 public class Stroke implements Transferable {
-	public final Line path = new Line();
-	public final PenType pen = new PenType();
-	
-	boolean completed;
-	
+	public Line path = new Line();
+	public Pen pen = new Pen();
+	public boolean completed;
+
 	public void input(InputStream is) throws IOException {
 		completed = (char)is.read() == 'C';
 		path.input(is);

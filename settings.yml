@@ -20,6 +20,12 @@ ink-types:
  - {name: white, starting: 50, capacity: 100, refill-rate: 0.1, color: 255 255 255 255}
  - {name: black, starting: 20, capacity: 1000, refill-rate: 1, color: 0 0 0 255}
 
+pen-types:
+ - {name: 'BasicPen', width: 1, color: '0 0 0 255', inks: {black: 1}, physics: {type: rigid, density: 1}}
+ - {name: 'WallPen', width: 3, color: '9 9 50 255', inks: {black: 3, blue: 0.5}, physics: {type: rigid, density: 5}}
+ - {name: 'FlexiblePen', width: 1, color: '90 99 200 200', inks: {blue: 1.5}, physics: {type: spring, density: 0.7}}
+ - {name: 'Erase', width: 5, color: '255 255 255 255', inks: {white: 1}, physics: {type: rigid}, density: 0}
+
 ########################################################
 #      Settings used by just the CLIENT                #
 ########################################################

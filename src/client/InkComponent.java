@@ -9,6 +9,7 @@ import utils.Blot;
 import utils.BodyList;
 import utils.Ink;
 import utils.Orientation;
+import utils.Pen;
 import utils.Settings;
 import utils.Stroke;
 
@@ -18,6 +19,7 @@ public class InkComponent extends JComponent {
 	final BodyList list = new BodyList();
 	final Orientation myPosition = new Orientation();
 	Ink[] inks;
+	Pen[] pens;
 	final int SCALE;
 	boolean rotLocked = true;
 

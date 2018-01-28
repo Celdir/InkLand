@@ -2,15 +2,13 @@ package client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import serverAPI.*;
-import utils.Ink;
-import utils.Line;
-import utils.PrintUtils;
-import utils.Settings;
+import utils.*;
 
 public class ClientMain implements MessageReceiver, ActionListener {
 	public static void main(String[] args){ new ClientMain(); }
@@ -23,6 +21,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	InkComponent inkComp;
 	final double MOVEMENT_SPEED;
 	final double ROTATE_SPEED;
+	Pen currentPen;
 
 	ClientMain() {
 		settings = new Settings();
@@ -49,6 +48,14 @@ public class ClientMain implements MessageReceiver, ActionListener {
 					inkComp.inks[i] = new Ink();
 					inkComp.inks[i].input(is);
 				}
+				// Read pens from server
+				int numPens = PrintUtils.readInt(is);
+				inkComp.pens = new Pen[numPens];
+				for(int i=0; i<numPens; ++i){
+					inkComp.pens[i] = new Pen();
+					inkComp.pens[i].input(is);
+				}
+				currentPen = inkComp.pens[0];
 			}
 			catch(IOException e){
 				// TODO Auto-generated catch block
@@ -66,7 +73,6 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainframe.repaint();
-		serverHook.println(PrintUtils.toString(inkComp.myPosition));
 
 		// Update player's position
 		if(mainframe.hasFocus()){
@@ -83,10 +89,36 @@ public class ClientMain implements MessageReceiver, ActionListener {
 				inkComp.myPosition.rotateBy(ROTATE_SPEED * (keyboardHook.CLOCK ? -1 : 1));
 			}
 
-			// Read mouse movement
+			// Send position update
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			try{inkComp.myPosition.print(os);}
+			catch(IOException e2){e2.printStackTrace();}
+
+			// Read & send mouse movement
 			synchronized(mouseHook.backlog){
-				while(!mouseHook.backlog.isEmpty()){
-					Line line = mouseHook.backlog.pollFirst();
+				try{
+					PrintUtils.writeInt(os, mouseHook.backlog.size());
+	
+					// Send all backlogged strokes
+					Stroke stroke = new Stroke();
+					while(!mouseHook.backlog.isEmpty()){
+						stroke.path = mouseHook.backlog.pollFirst();
+						stroke.pen = currentPen;
+						stroke.completed = true;
+						stroke.print(os);
+					}
+					// Send the current WIP stroke
+					if(!mouseHook.curLine.points.isEmpty()){
+						stroke.path = mouseHook.curLine;
+						stroke.pen = currentPen;
+						stroke.completed = false;
+						stroke.print(os);
+					}
+					serverHook.println(os.toString());
+				}
+				catch(IOException ex){
+					ex.printStackTrace();
+					mouseHook.backlog.clear();
 				}
 			}
 		}

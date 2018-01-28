@@ -19,7 +19,10 @@ public class Ink implements Transferable {
 	}
 
 	public void print(OutputStream os) throws IOException {
+		PrintUtils.writeToken(os, name);
 		PrintUtils.writeColor(os, color);
 		PrintUtils.writeDouble(os, REGEN_RATE);
+		PrintUtils.writeDouble(os, CAPACITY);
+		PrintUtils.writeDouble(os, amount);
 	}
 }

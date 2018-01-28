@@ -35,7 +35,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 			// Assume all messages from a client are just about orientation
 			Player player = players.get(id);
 			if(player == null) players.put(id, player = new Player());
-			player.orientation.input(Utils.toInputStream(message));
+			player.orientation.input(PrintUtils.toInputStream(message));
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -53,6 +53,6 @@ public class ServerMain implements MessageReceiver, ActionListener{
 				shape.bound.points.add(player.orientation.local2world(pt, true));
 			bodyList.blots.add(shape);
 		}
-		serverHook.println(Utils.toString(bodyList));
+		serverHook.println(PrintUtils.toString(bodyList));
 	}
 }

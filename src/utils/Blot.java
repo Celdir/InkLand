@@ -10,14 +10,12 @@ public class Blot implements Transferable {
 	public Color fill = Color.BLACK;
 	
 	public void input(InputStream is) throws IOException {
-		fill = new Color(Utils.read(is), Utils.read(is), Utils.read(is), Utils.read(is));
+		fill = PrintUtils.readColor(is);
 		bound.input(is);
 	}
 
 	public void print(OutputStream os) throws IOException {
-		String out = "";
-		out += fill.getRed() + " " + fill.getGreen() + " " + fill.getBlue() + " " + fill.getAlpha() + " ";
-		os.write(out.getBytes());
+		PrintUtils.writeColor(os, fill);
 		bound.print(os);
 	}
 }

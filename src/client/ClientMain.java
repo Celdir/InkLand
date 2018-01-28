@@ -6,8 +6,8 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import serverAPI.*;
+import utils.PrintUtils;
 import utils.Settings;
-import utils.Utils;
 
 public class ClientMain implements MessageReceiver, ActionListener {
 	public static void main(String[] args){ new ClientMain(); }
@@ -38,7 +38,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		if(inkComp == null) return;
 		try {
 			synchronized(inkComp.list) {
-				inkComp.list.input(Utils.toInputStream(message)); 
+				inkComp.list.input(PrintUtils.toInputStream(message)); 
 			}
 		} catch(IOException e) { e.printStackTrace(); }
 	}
@@ -46,7 +46,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainframe.repaint();
-		serverHook.println(Utils.toString(inkComp.myPosition));
+		serverHook.println(PrintUtils.toString(inkComp.myPosition));
 
 		// Update player's position
 		if(keyboardHook.isPressed(KeyEvent.VK_W)){

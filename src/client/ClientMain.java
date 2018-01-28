@@ -49,14 +49,19 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		mainframe.repaint();
 		serverHook.println(Utils.toString(inkComp.myPosition));
+
+		//TODO: player movement
 		if(keyboardHook.isPressed(KeyEvent.VK_W)){
-			
+			//move forward
 		}
 		else if(keyboardHook.isPressed(KeyEvent.VK_S)){
-			
+			//move backward
 		}
-		if(keyboardHook.isPressed(KeyEvent.VK_A));//move
-		if(keyboardHook.isPressed(KeyEvent.VK_S));//move
-		if(keyboardHook.isPressed(KeyEvent.VK_D));//move
+		if(keyboardHook.isPressed(KeyEvent.VK_A)){
+			//move left
+		}
+		else if(keyboardHook.isPressed(KeyEvent.VK_D)){
+			//move right
+		}
 	}
 }

@@ -19,6 +19,7 @@ public class InkComponent extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		synchronized (list) {
+			System.out.println("drawing");
 			for(Blot b : list.blots) {
 				g.setColor(b.fill);
 				int npts = b.bound.points.size();

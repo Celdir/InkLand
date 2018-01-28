@@ -7,13 +7,19 @@ import javax.swing.JComponent;
 import utils.Blot;
 import utils.BodyList;
 import utils.Orientation;
+import utils.Settings;
 
 public class InkComponent extends JComponent {
 	private static final long serialVersionUID = -8844473018708075151L;
 
 	final BodyList list = new BodyList();
 	final Orientation myPosition = new Orientation();
+	final int SCALE;
 	boolean rotLocked = true;
+
+	InkComponent(Settings settings){
+		SCALE = settings.getInt("scale", 30);
+	}
 
 	@Override protected void paintComponent(Graphics g) {
 		g.setColor(Color.WHITE);
@@ -41,6 +47,6 @@ public class InkComponent extends JComponent {
 	}
 
 	private double getScale() {
-		return 30;
+		return SCALE;
 	}
 }

@@ -1,30 +1,31 @@
-################################################
-#  Settings used by BOTH server and client     #
-################################################
+########################################################
+#      Settings used by BOTH server and client         #
+########################################################
 
 port: 44394
-movement-speed: 0.1		#Units player can advance per tick
-rotate-speed: 0.01		#Radians player can rotate per tick
+movement-speed: 0.1			#Units player can advance per tick
+rotate-speed: 0.01			#Radians player can rotate per tick
 
-################################################
-#  Settings used by just the SERVER            #
-################################################
+########################################################
+#      Settings used by just the SERVER                #
+########################################################
 
 player-shape: -1 -2 1 -2 0 3
 server-timer-resolution: 20	#Milliseconds per game tick
-player-color: 1 100 50 255
-max-players: 20
+player-color: 1 100 50 255	#In RGBa format
+max-players: 20				#How many players may join
 
 
-################################################
-#  Settings used by just the CLIENT            #
-################################################
+########################################################
+#      Settings used by just the CLIENT                #
+########################################################
 
-host:  10.231.169.127	#Address to connect to
-client-timer-resolution: 50
-start-brush: default	#Which brush to start on
-screen-width: 75		#Screen % width on open
-screen-height: 75		#Screen % height on open
+host:  10.231.169.127		#Address to connect to
+client-timer-resolution: 50	#Too high/low = lag
+start-brush: default		#Which brush to start on
+screen-width: 75			#Screen % width on open
+screen-height: 75			#Screen % height on open
+scale: 30					#Pixel to board unit ratio
 
 key-up: W,UP
 key-down: S,DOWN

@@ -24,8 +24,9 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		settings = new Settings();
 		serverHook = new ClientSide(this, settings);
 		keyboardHook = new KeyboardState(settings);
+		//TODO: Pause here to wait for special msgs from server?
 		mainframe = new ClientFrame(settings);
-		mainframe.add(inkComp = new InkComponent());
+		mainframe.add(inkComp = new InkComponent(settings));
 		mainframe.setVisible(true);
 
 		MOVEMENT_SPEED = settings.getDouble("movement-speed", 1);
@@ -34,13 +35,16 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	}
 
 	@Override
-	public void receiveMessage(String message) {
-		if(inkComp == null) return;
-		try {
-			synchronized(inkComp.list) {
+	public void receiveMessage(String message){
+		if(inkComp == null){
+			//read stuff 
+		}
+		else try{
+			synchronized(inkComp.list){
 				inkComp.list.input(PrintUtils.toInputStream(message)); 
 			}
-		} catch(IOException e) { e.printStackTrace(); }
+		}
+		catch(IOException e){e.printStackTrace();}
 	}
 
 	@Override
@@ -50,20 +54,15 @@ public class ClientMain implements MessageReceiver, ActionListener {
 
 		// Update player's position
 		if(keyboardHook.UP != keyboardHook.DOWN){
-			if(keyboardHook.UP)
-				inkComp.myPosition.translateBy(0, MOVEMENT_SPEED, inkComp.rotLocked);
-			else
-				inkComp.myPosition.translateBy(0, -MOVEMENT_SPEED, inkComp.rotLocked);
+			inkComp.myPosition.translateBy(0, MOVEMENT_SPEED *
+					(keyboardHook.UP ? 1 : -1), inkComp.rotLocked);
 		}
 		if(keyboardHook.LEFT != keyboardHook.RIGHT){
-			if(keyboardHook.LEFT)
-				inkComp.myPosition.translateBy(-MOVEMENT_SPEED, 0, inkComp.rotLocked);
-			else 
-				inkComp.myPosition.translateBy(MOVEMENT_SPEED, 0, inkComp.rotLocked);
+			inkComp.myPosition.translateBy(MOVEMENT_SPEED *
+					(keyboardHook.RIGHT ? 1 : -1), 0, inkComp.rotLocked);
 		}
 		if(keyboardHook.CLOCK != keyboardHook.COUNTER){
-			if(keyboardHook.CLOCK) inkComp.myPosition.rotateBy(ROTATE_SPEED);
-			else inkComp.myPosition.rotateBy(-ROTATE_SPEED);
+			inkComp.myPosition.rotateBy(ROTATE_SPEED * (keyboardHook.CLOCK ? 1 : -1));
 		}
 	}
 }

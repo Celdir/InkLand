@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class BodyList implements Transferable {
-	public final ArrayList<Blot> blots = new ArrayList<>();
-	public final ArrayList<Stroke> strokes = new ArrayList<>();
+	public final ArrayList<Blot> blots = new ArrayList<Blot>();
+	public final ArrayList<Stroke> strokes = new ArrayList<Stroke>();
 	
 	public void clear() {
 		blots.clear();

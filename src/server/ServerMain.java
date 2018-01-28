@@ -17,14 +17,18 @@ public class ServerMain implements MessageReceiver, ActionListener{
 	HashMap<Integer, Player> players;
 	Connection serverHook;
 	Blot playerShape;
+	Ink[] inks;
 
 	ServerMain(){
 		settings = new Settings();
 		players = new HashMap<Integer, Player>();
 		bodyList = new BodyList();
+		inks = Utils.loadInks(settings.getObject("ink-types"));
 		serverHook = new ServerSide(this, settings);
 		playerShape = Utils.getPlayerShape(settings);
-		new Timer(settings.getInt("timer-resolution", 10), this).start();
+		new Timer(settings.getInt("server-timer-resolution", 10), this).start();
+
+		//TODO: send inks to client or something
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 		try{//Radians
 			// Assume all messages from a client are just about orientation
 			Player player = players.get(id);
-			if(player == null) players.put(id, player = new Player());
+			if(player == null) players.put(id, player = new Player(inks.clone()));
 			if(message.equals("QUIT")){
 				players.remove(id);
 				return;

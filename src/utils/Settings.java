@@ -1,65 +1,77 @@
 package utils;
 import java.util.Map;
+import org.yaml.snakeyaml.Yaml;
 
 public class Settings {
-	private Map<String, String> map;
+//	private Map<String, String> map;
+	private Map<String, Object> map;
 	private String filename = "settings.yml";
-	
+
+	@SuppressWarnings("unchecked")
 	public Settings(String filename){
 		this.filename = filename;
 		
 		//Initialize this Settings object with a map (setting -> value)
-		map = FileIO.loadYaml(filename, getClass().getResourceAsStream("/settings.yml"));
+		Yaml yaml = new Yaml();
+		map = (Map<String, Object>) yaml.load(
+			FileIO.loadFile(filename, getClass().getResourceAsStream("/settings.yml")));
+//		map = FileIO.loadYaml(filename, getClass().getResourceAsStream("/settings.yml"));
 	}
 	
 	public Settings(){
 		this("settings.yml");
 	}
-	
+
 	public boolean getBoolean(String key){
-		return Boolean.parseBoolean(map.get(key.toLowerCase()));
+		Object val = map.get(key.toLowerCase());
+		return val != null && Boolean.parseBoolean(val.toString());
 	}
 	public boolean getBoolean(String key, boolean def){
-		String val = map.get(key.toLowerCase());
-		return val == null ? def : Boolean.parseBoolean(val);
+		Object val = map.get(key.toLowerCase());
+		return val == null ? def : Boolean.parseBoolean(val.toString());
 	}
 
 	public int getInt(String key){
-		String val = map.get(key.toLowerCase());
-		return val != null && val.matches("\\d+") ? Integer.parseInt(val) : 0;
+		Object val = map.get(key.toLowerCase());
+		return val != null && val.toString().matches("\\d+") ? Integer.parseInt(val.toString()) : 0;
 	}
 	public int getInt(String key, int def){
-		String val = map.get(key.toLowerCase());
-		return val != null && val.matches("\\d+") ? Integer.parseInt(val) : def;
+		Object val = map.get(key.toLowerCase());
+		return val != null && val.toString().matches("\\d+") ? Integer.parseInt(val.toString()) : def;
 	}
 
 	public double getDouble(String key){
-		String val = map.get(key.toLowerCase());
+		Object val = map.get(key.toLowerCase());
 		if(val == null) return 0;
-		try{return Double.parseDouble(val);}
+		try{return Double.parseDouble(val.toString());}
 		catch(NumberFormatException e){return 0;}
 	}
 	public double getDouble(String key, double def){
-		String val = map.get(key.toLowerCase());
+		Object val = map.get(key.toLowerCase());
 		if(val == null) return def;
-		try{return Double.parseDouble(val);}
+		try{return Double.parseDouble(val.toString());}
 		catch(NumberFormatException e){return def;}
 	}
 
 	public String getString(String key){
-		return map.get(key.toLowerCase());
+		Object val = map.get(key.toLowerCase());
+		return val == null ? null : val.toString();
 	}
 	public String getString(String key, String def){
-		String val = map.get(key.toLowerCase());
-		return val == null ? def : val;
+		Object val = map.get(key.toLowerCase());
+		return val == null ? def : val.toString();
 	}
-	
+
+	public Object getObject(String key){
+		return map.get(key);
+	}
+
 	public void set(String key, Object value){
-		map.put(key.toLowerCase(), value.toString());
+		map.put(key.toLowerCase(), value);
 	}
-	
+
 	public void updateFile(){
-		//Save current settings back to the file their were loaded from
+		//Save current settings back to the file they were loaded from
 		FileIO.saveYaml(filename, map);
 	}
 }

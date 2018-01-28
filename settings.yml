@@ -15,6 +15,10 @@ server-timer-resolution: 20	#Milliseconds per game tick
 player-color: 1 100 50 255	#In RGBa format
 max-players: 20				#How many players may join
 
+ink-types:
+ - {name: blue, starting: 100, capacity: 100, refill-rate: 2.0, color: 10 10 255 255}
+ - {name: white, starting: 50, capacity: 100, refill-rate: 0.1, color: 255 255 255 255}
+ - {name: black, starting: 20, capacity: 1000, refill-rate: 1, color: 0 0 0 255}
 
 ########################################################
 #      Settings used by just the CLIENT                #

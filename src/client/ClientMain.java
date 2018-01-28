@@ -31,7 +31,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 
 		MOVEMENT_SPEED = settings.getDouble("movement-speed", 1);
 		ROTATE_SPEED = settings.getDouble("rotate-speed", 1);
-		new Timer(settings.getInt("timer-resolution", 10), this).start();
+		new Timer(settings.getInt("client-timer-resolution", 10), this).start();
 	}
 
 	@Override
@@ -53,16 +53,18 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		serverHook.println(PrintUtils.toString(inkComp.myPosition));
 
 		// Update player's position
-		if(keyboardHook.UP != keyboardHook.DOWN){
-			inkComp.myPosition.translateBy(0, MOVEMENT_SPEED *
-					(keyboardHook.UP ? 1 : -1), inkComp.rotLocked);
-		}
-		if(keyboardHook.LEFT != keyboardHook.RIGHT){
-			inkComp.myPosition.translateBy(MOVEMENT_SPEED *
-					(keyboardHook.RIGHT ? 1 : -1), 0, inkComp.rotLocked);
-		}
-		if(keyboardHook.CLOCK != keyboardHook.COUNTER){
-			inkComp.myPosition.rotateBy(ROTATE_SPEED * (keyboardHook.CLOCK ? 1 : -1));
+		if(mainframe.hasFocus()){
+			if(keyboardHook.UP != keyboardHook.DOWN){
+				inkComp.myPosition.translateBy(0, MOVEMENT_SPEED *
+						(keyboardHook.UP ? 1 : -1), inkComp.rotLocked);
+			}
+			if(keyboardHook.LEFT != keyboardHook.RIGHT){
+				inkComp.myPosition.translateBy(MOVEMENT_SPEED *
+						(keyboardHook.RIGHT ? 1 : -1), 0, inkComp.rotLocked);
+			}
+			if(keyboardHook.CLOCK != keyboardHook.COUNTER){
+				inkComp.myPosition.rotateBy(ROTATE_SPEED * (keyboardHook.CLOCK ? 1 : -1));
+			}
 		}
 	}
 }

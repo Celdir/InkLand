@@ -10,7 +10,7 @@ import utils.Settings;
 public class KeyboardState{
 	boolean UP, DOWN, LEFT, RIGHT, CLOCK, COUNTER;
 	private HashSet<Integer> up, down, left, right, clock, counter;
-	private HashSet<Integer> pressed;
+	private static HashSet<Integer> pressed = new HashSet<Integer>();
 
 	/**
 	 * Figure out if a key is currently being pressed (held down)
@@ -18,7 +18,7 @@ public class KeyboardState{
 	 * @param  int  the ID of the key in question
 	 * @return      whether the key is pressed as a true/false
 	 */
-	public boolean isPressed(Integer k){
+	public static boolean isPressed(Integer k){
 		return pressed.contains(k);
 	}
 

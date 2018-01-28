@@ -15,7 +15,7 @@ import java.util.Map;
 //Basic FileIO utility, not written during this project cycle
 public class FileIO {
 	public static final String rootDir = "./";
-	
+
 	private static Map<String,String> loadYamlish(File file){
 		BufferedReader reader = null;
 		try{reader = new BufferedReader(new FileReader(file));}
@@ -32,7 +32,9 @@ public class FileIO {
 					if(idx >= 0) line = line.substring(0,idx);
 					if(line.contains("=")){
 						String[] keyval = line.split("=");
-						map.put(keyval[0].trim().toLowerCase(), keyval[1].trim().replaceAll("\"$|^\"", ""));
+						if(keyval.length > 1)
+							map.put(keyval[0].trim().toLowerCase(),
+									keyval[1].trim().replaceAll("\"$|^\"", ""));
 					}
 				}
 				reader.close();
@@ -78,7 +80,53 @@ public class FileIO {
 		}
 		return loadYamlish(file);
 	}
-	
+
+	public static String loadFile(String filename, InputStream defaultValue) {
+		BufferedReader reader = null;
+		try{reader = new BufferedReader(new FileReader(filename));}
+		catch(FileNotFoundException e){
+			if(defaultValue == null) return null;
+
+			//Create the file
+			File conf = new File(filename);
+			StringBuilder builder = new StringBuilder();
+			String content = null;
+			try{
+				conf.createNewFile();
+				reader = new BufferedReader(new InputStreamReader(defaultValue));
+
+				String line = reader.readLine();
+				builder.append(line);
+				while(line != null){
+					builder.append('\n').append(line);
+					line = reader.readLine();
+				}
+				reader.close();
+
+				BufferedWriter writer = new BufferedWriter(new FileWriter(conf));
+				writer.write(content = builder.toString()); writer.close();
+			}
+			catch(IOException e1){e1.printStackTrace();}
+			return content;
+		}
+		StringBuilder file = new StringBuilder();
+		if(reader != null){
+			try{
+				String line = reader.readLine();
+				while(line != null){
+					line = line.replace("//", "#").trim();
+					if(!line.startsWith("#")){
+						file.append(line.split("#")[0].trim()).append('\n');
+					}
+					line = reader.readLine();
+				}
+				reader.close();
+			}catch(IOException e){}
+		}
+		if(file.length() > 0) file.substring(0, file.length()-1);
+		return file.toString();
+	}
+
 	public static String loadFile(String filename, String defaultContent) {
 		StringBuilder builder = new StringBuilder();
 		try{
@@ -90,7 +138,7 @@ public class FileIO {
 		}
 		catch(IOException e){return defaultContent;}
 	}
-	
+
 	public static boolean saveFile(String filename, String content) {
 		try{
 			BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
@@ -100,13 +148,13 @@ public class FileIO {
 		catch(IOException e){return false;}
 	}
 
-	public static void saveYaml(String configName, Map<String, String> map) {
+	public static void saveYaml(String configName, Map<String, Object> map) {
 		if(!configName.endsWith(".yml")) {
 			System.err.println("Invalid config file!");
 			System.err.println("Configuation files must end in .yml");
 		}
 		else{
-			Map<String, String> toSave = new HashMap<String, String>(map);
+			Map<String, Object> toSave = new HashMap<String, Object>(map);
 			
 			StringBuilder builder = new StringBuilder("");
 			for(String line : loadFile(configName, "").split("\n")){
@@ -118,8 +166,8 @@ public class FileIO {
 					String[] keyval = beforeComment.split(":");
 					keyval[0] = keyval[0].trim().toLowerCase();
 					
-					String newVal = toSave.remove(keyval[0]);
-					if(newVal != null) line = line.replace(keyval[1].trim(), newVal);
+					Object newVal = toSave.remove(keyval[0]);
+					if(newVal != null) line = line.replace(keyval[1].trim(), newVal.toString());
 				}
 				builder.append(line).append('\n');
 			}

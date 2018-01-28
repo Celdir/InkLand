@@ -43,8 +43,8 @@ public class KeyboardState{
 		getKeyFields(down, settings.getString("key-down").split(","));
 		getKeyFields(left, settings.getString("key-left").split(","));
 		getKeyFields(right, settings.getString("key-right").split(","));
-		getKeyFields(clock, settings.getString("key-rotate-clock").split(","));
-		getKeyFields(counter, settings.getString("key-rotate-counter").split(","));
+		//getKeyFields(clock, settings.getString("key-rotate-clock").split(","));
+		//getKeyFields(counter, settings.getString("key-rotate-counter").split(","));
 		pressed = new HashSet<Integer>();
 
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(

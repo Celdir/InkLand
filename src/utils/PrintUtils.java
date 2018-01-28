@@ -29,6 +29,7 @@ public class PrintUtils {
 
 	public static void writeToken(OutputStream os, String token) throws IOException {
 		os.write(token.getBytes());
+		os.write(' ');
 	}
 	
 	public static void writeInt(OutputStream os, int i) throws IOException {

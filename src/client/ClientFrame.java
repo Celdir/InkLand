@@ -17,6 +17,5 @@ public class ClientFrame extends JFrame{
 				(int) (screenSize.getHeight() * (settings.getDouble("screen-height", 75)/100))
 		);
 		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 }

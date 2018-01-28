@@ -25,6 +25,7 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		keyboardHook = new KeyboardState();
 		mainframe = new ClientFrame(settings);
 		mainframe.add(inkComp = new InkComponent());
+		mainframe.setVisible(true);
 
 		MOVEMENT_SPEED = settings.getInt("movement-speed", 1);
 		new Timer(settings.getInt("timer-resolution", 10), this).start();

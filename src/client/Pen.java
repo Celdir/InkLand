@@ -20,6 +20,12 @@ public class Pen extends MouseInputAdapter {
 		Point last = points.get(0);
 		for (int i = 1; i < points.size(); ++i) {
 			Point cur = points.get(i);
+			if ((cur.x - last.x) * (cur.x - last.x) + (cur.y - last.y) * (cur.y - last.y) < SAMPLE_DIST * SAMPLE_DIST) {
+				points.erase(i);
+				--i;
+			} else {
+				last = cur;
+			}
 		}
 	}
 }

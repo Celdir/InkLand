@@ -12,8 +12,8 @@ import utils.BodyList;
 public class InkComponent extends JComponent {
 	private static final long serialVersionUID = -8844473018708075151L;
 
-	BodyList list;
-	Orientation myPosition;
+	final BodyList list = new BodyList();
+	final Orientation myPosition = new Orientation();
 	boolean rotLocked = true;
 
 	@Override protected void paintComponent(Graphics g) {

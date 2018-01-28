@@ -10,7 +10,7 @@ import java.util.Scanner;
 import utils.Transferable;
 
 public class Orientation implements Transferable {
-	private Point2D.Double position;
+	private Point2D.Double position = new Point2D.Double(0, 0);
 	private double rotRadians;
 	private transient double s, c;
 	
@@ -83,6 +83,6 @@ public class Orientation implements Transferable {
 
 	public void print(OutputStream os) throws IOException {
 		PrintStream out = new PrintStream(os);
-		out.printf("%0.5f %0.5f %0.5f ", position.x, position.y, rotRadians);
+		out.printf("%.5f %.5f %.5f ", position.x, position.y, rotRadians);
 	}
 }

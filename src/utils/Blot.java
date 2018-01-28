@@ -16,7 +16,7 @@ public class Blot implements Transferable {
 
 	public void print(OutputStream os) throws IOException {
 		String out = "";
-		out += fill.getRed() + " " + fill.getGreen() + " " + fill.getBlue() + " " + fill.getTransparency() + " ";
+		out += fill.getRed() + " " + fill.getGreen() + " " + fill.getBlue() + " " + fill.getAlpha() + " ";
 		os.write(out.getBytes());
 		bound.print(os);
 	}

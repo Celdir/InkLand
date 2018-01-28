@@ -41,8 +41,11 @@ public class ClientMain implements MessageReceiver, ActionListener {
 	@Override
 	public void receiveMessage(String message) {
 		if(inkComp == null) return;
-		try{ inkComp.list.input(Utils.toInputStream(message)); }
-		catch(IOException e) { e.printStackTrace(); }
+		try {
+			synchronized(inkComp.list) {
+				inkComp.list.input(Utils.toInputStream(message)); 
+			}
+		} catch(IOException e) { e.printStackTrace(); }
 	}
 
 	@Override

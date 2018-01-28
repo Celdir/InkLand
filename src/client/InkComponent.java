@@ -20,17 +20,19 @@ public class InkComponent extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		//System.out.println(list.blots.size() + list.strokes.size());
-		for(Blot b : list.blots) {
-			g.setColor(b.fill);
-			int npts = b.bound.points.size();
-			int[] xs = new int[npts];
-			int[] ys = new int[npts];
-			for(int i = 0; i < npts; ++i) {
-				Point2D.Double pt = myPosition.world2local(b.bound.points.get(i), rotLocked);
-				xs[i] = local2pixel(pt.x, false);
-				ys[i] = local2pixel(pt.y, true);
+		synchronized (list) {
+			for(Blot b : list.blots) {
+				g.setColor(b.fill);
+				int npts = b.bound.points.size();
+				int[] xs = new int[npts];
+				int[] ys = new int[npts];
+				for(int i = 0; i < npts; ++i) {
+					Point2D.Double pt = myPosition.world2local(b.bound.points.get(i), rotLocked);
+					xs[i] = local2pixel(pt.x, false);
+					ys[i] = local2pixel(pt.y, true);
+				}
+				g.fillPolygon(xs, ys, npts);
 			}
-			g.fillPolygon(xs, ys, npts);
 		}
 	}
 

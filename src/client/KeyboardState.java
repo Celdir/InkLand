@@ -43,8 +43,8 @@ public class KeyboardState{
 		getKeyFields(down, settings.getString("key-down").split(","));
 		getKeyFields(left, settings.getString("key-left").split(","));
 		getKeyFields(right, settings.getString("key-right").split(","));
-		//getKeyFields(clock, settings.getString("key-rotate-clock").split(","));
-		//getKeyFields(counter, settings.getString("key-rotate-counter").split(","));
+		getKeyFields(clock, settings.getString("key-rotate-clock").split(","));
+		getKeyFields(counter, settings.getString("key-rotate-counter").split(","));
 		pressed = new HashSet<Integer>();
 
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(
@@ -56,6 +56,8 @@ public class KeyboardState{
 						else if(down.contains(key.getKeyCode())) DOWN = true;
 						else if(left.contains(key.getKeyCode())) LEFT = true;
 						else if(right.contains(key.getKeyCode())) RIGHT = true;
+						else if(clock.contains(key.getKeyCode())) CLOCK = true;
+						else if(counter.contains(key.getKeyCode())) COUNTER = true;
 					}
 					else if(key.getID() == KeyEvent.KEY_RELEASED){
 						pressed.remove(key.getKeyCode());
@@ -63,6 +65,8 @@ public class KeyboardState{
 						else if(down.contains(key.getKeyCode())) DOWN = false;
 						else if(left.contains(key.getKeyCode())) LEFT = false;
 						else if(right.contains(key.getKeyCode())) RIGHT = false;
+						else if(clock.contains(key.getKeyCode())) CLOCK = false;
+						else if(counter.contains(key.getKeyCode())) COUNTER = false;
 					}
 					return false;
 				}

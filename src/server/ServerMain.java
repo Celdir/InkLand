@@ -32,7 +32,7 @@ public class ServerMain implements MessageReceiver, ActionListener{
 		int i = message.indexOf(' '), id = Integer.parseInt(message.substring(0, i));
 		message = message.substring(i+1);
 		try{
-			// Assume all messages from a client are just their orientation
+			// Assume all messages from a client are just about orientation
 			Player player = players.get(id);
 			if(player == null) players.put(id, player = new Player());
 			player.orientation.input(Utils.toInputStream(message));

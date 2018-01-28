@@ -1,6 +1,4 @@
 package client;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,18 +23,8 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		settings = new Settings();
 		serverHook = new ClientSide(this, settings);
 		keyboardHook = new KeyboardState();
-		inkComp = new InkComponent();
-
-		mainframe = new JFrame("Ink Game");
-		mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		mainframe.setSize(
-				(int) (screenSize.getWidth() * (settings.getDouble("screen-width", 75)/100)),
-				(int) (screenSize.getHeight() * (settings.getDouble("screen-height", 75)/100))
-		);
-		mainframe.setLocationRelativeTo(null);
-		mainframe.add(inkComp);
-		mainframe.setVisible(true);
+		mainframe = new ClientFrame(settings);
+		mainframe.add(inkComp = new InkComponent());
 
 		MOVEMENT_SPEED = settings.getInt("movement-speed", 1);
 		new Timer(settings.getInt("timer-resolution", 10), this).start();
@@ -69,6 +57,12 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		}
 		else if(keyboardHook.isPressed(KeyEvent.VK_D)){
 			inkComp.myPosition.translateBy(MOVEMENT_SPEED, 0, inkComp.rotLocked);
+		}
+		if(keyboardHook.isPressed(KeyEvent.VK_Q)){
+			//rotate cntrclock
+		}
+		else if(keyboardHook.isPressed(KeyEvent.VK_E)){
+			//rotate clockwise
 		}
 	}
 }

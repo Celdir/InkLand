@@ -1,6 +1,18 @@
-# 
+# Shape and color of the player object
 player-shape: 0 0 2 0 1 5
 player-color: 1 100 50 0
+
+# Address to connect to
 host: 127.0.0.1
+
+# Port to host/connect to
 port: 44394
+
+# Max clients per server
 max-players: 20
+
+# Milliseconds per game tick
+timer-resolution: 10
+
+# Speed player can move per game tick
+movement-speed: 1

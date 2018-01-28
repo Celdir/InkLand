@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import serverAPI.*;
 import utils.Ink;
+import utils.Line;
 import utils.PrintUtils;
 import utils.Settings;
 
@@ -16,8 +17,8 @@ public class ClientMain implements MessageReceiver, ActionListener {
 
 	Settings settings;
 	Connection serverHook;
-	KeyboardState keyboardHook;
-	Pen mouseHook;
+	KeyboardHook keyboardHook;
+	MouseHook mouseHook;
 	JFrame mainframe;
 	InkComponent inkComp;
 	final double MOVEMENT_SPEED;
@@ -27,8 +28,8 @@ public class ClientMain implements MessageReceiver, ActionListener {
 		settings = new Settings();
 		inkComp = new InkComponent(settings);
 		serverHook = new ClientSide(this, settings);
-		keyboardHook = new KeyboardState(settings);
-		mouseHook = new Pen(settings);
+		keyboardHook = new KeyboardHook(settings);
+		mouseHook = new MouseHook(settings);
 		mainframe = new ClientFrame(settings, inkComp);
 
 		MOVEMENT_SPEED = settings.getDouble("movement-speed", 1);
@@ -83,6 +84,11 @@ public class ClientMain implements MessageReceiver, ActionListener {
 			}
 
 			// Read mouse movement
+			synchronized(mouseHook.backlog){
+				while(!mouseHook.backlog.isEmpty()){
+					Line line = mouseHook.backlog.pollFirst();
+				}
+			}
 		}
 	}
 }

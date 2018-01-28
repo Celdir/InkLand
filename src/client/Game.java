@@ -1,7 +1,7 @@
 package client;
 
 class Game{
-	KeyboardState keyboardAPI;
+	KeyboardHook keyboardAPI;
 	
 	Game(){
 		

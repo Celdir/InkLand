@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import utils.Settings;
 
-public class KeyboardState{
+public class KeyboardHook{
 	boolean UP, DOWN, LEFT, RIGHT, CLOCK, COUNTER;
 	private HashSet<Integer> up, down, left, right, clock, counter;
 	private static HashSet<Integer> pressed = new HashSet<Integer>();
@@ -32,7 +32,7 @@ public class KeyboardState{
 		}
 	}
 
-	public KeyboardState(Settings settings){
+	public KeyboardHook(Settings settings){
 		up = new HashSet<Integer>();
 		down = new HashSet<Integer>();
 		left = new HashSet<Integer>();

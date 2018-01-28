@@ -30,7 +30,7 @@ start-brush: default		#Which brush to start on
 screen-width: 75			#Screen % width on open
 screen-height: 75			#Screen % height on open
 scale: 30					#Pixel to board unit ratio
-mouse-sampling-distance: 5	#How precise mouse sampling is
+mouse-sampling-distance: 3	#How precise mouse sampling is
 
 key-up: W,UP
 key-down: S,DOWN

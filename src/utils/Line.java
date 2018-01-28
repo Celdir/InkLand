@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Line implements Transferable {
-	public final ArrayList<Point2D.Double> points = new ArrayList<>();
+	public final ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
 	
 	public void input(InputStream is) throws IOException {
 		points.clear();
@@ -18,7 +18,7 @@ public class Line implements Transferable {
 		}
 
 		Scanner s = new Scanner(coords);
-		while (s.hasNextDouble()) {
+		while(s.hasNextDouble()) {
 			double x = s.nextDouble();
 			double y = s.nextDouble();
 			points.add(new Point2D.Double(x, y));
@@ -34,5 +34,4 @@ public class Line implements Transferable {
 		out += "|";
 		os.write(out.getBytes());
 	}
-
 }

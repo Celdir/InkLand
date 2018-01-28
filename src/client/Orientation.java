@@ -12,7 +12,7 @@ import utils.Transferable;
 public class Orientation implements Transferable {
 	private Point2D.Double position = new Point2D.Double(0, 0);
 	private double rotRadians;
-	private transient double s, c;
+	private transient double s = 0, c = 1;
 	
 	public Point2D.Double local2world(Point2D.Double in, boolean useRot) {
 		double x, y;
